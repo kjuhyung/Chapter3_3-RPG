@@ -1,18 +1,47 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class PlayerAnimationData : MonoBehaviour
+[Serializable]
+public class PlayerAnimationData
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private string groundParameterName = "@Ground";
+    [SerializeField] private string idleParameterName = "Idle";
+    [SerializeField] private string walkParameterName = "Walk";
+    [SerializeField] private string runParameterName = "Run";
+
+    [SerializeField] private string airParameterName = "@Air";
+    [SerializeField] private string jumpParameterName = "Jump";
+    [SerializeField] private string fallParameterName = "Fall";
+
+    [SerializeField] private string attackParameterName = "@Attack";
+    [SerializeField] private string comboAttackParameterName = "ComboAttack";
+
+    public int GroundParameterHash {  get; private set; }
+    public int IdleParameterHash { get; private set; }
+    public int WalkParameterHash { get; private set; }
+    public int RunParameterHash { get; private set; }
+
+    public int AirParameterHash { get; private set; }
+    public int JumpParameterHash { get; private set; }
+    public int fallParameterHash { get; private set; }
+
+    public int AttackParameterHash { get; private set; }
+    public int ComboAttackParameterHash { get; private set; }
+
+    public void Initialize()
     {
-        
+        GroundParameterHash = Animator.StringToHash(groundParameterName);
+        IdleParameterHash = Animator.StringToHash(idleParameterName);
+        WalkParameterHash = Animator.StringToHash(walkParameterName);
+        RunParameterHash = Animator.StringToHash(runParameterName);
+
+        AirParameterHash = Animator.StringToHash(airParameterName);
+        JumpParameterHash = Animator.StringToHash(jumpParameterName);
+        fallParameterHash = Animator.StringToHash(fallParameterName);
+
+        AttackParameterHash = Animator.StringToHash(attackParameterName);
+        ComboAttackParameterHash = Animator.StringToHash(comboAttackParameterName);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // StringToHash 문자열 파라미터들을 int형 Hash 값으로 저장
 }
