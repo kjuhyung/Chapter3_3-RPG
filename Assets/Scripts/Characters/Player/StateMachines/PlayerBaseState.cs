@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerBaseState : IState
 {
@@ -39,13 +40,28 @@ public class PlayerBaseState : IState
     //
     protected virtual void AddInputActionsCallBacks()
     {
-
+        PlayerInput input = stateMachine.Player.Input;
+        input.PlayerActions.Movement.canceled += OnMovementCanceled;
+        input.PlayerActions.Run.started += OnRunStarted;
     }
 
     protected virtual void RemoveInputActionsCallBacks()
     {
+        PlayerInput input = stateMachine.Player.Input;
+        input.PlayerActions.Movement.canceled -= OnMovementCanceled;
+        input.PlayerActions.Run.started -= OnRunStarted;
+    }
+
+    protected virtual void OnRunStarted(InputAction.CallbackContext context)
+    {
+        
+    }
+
+    protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
+    {
 
     }
+
     private void ReadMovementInput()
     {
         stateMachine.MovementInput = stateMachine.Player.Input.PlayerActions.Movement.ReadValue<Vector2>();

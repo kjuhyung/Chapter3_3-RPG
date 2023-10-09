@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class PlayerIdleState : PlayerGroundState
 {
     public PlayerIdleState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
@@ -20,5 +22,11 @@ public class PlayerIdleState : PlayerGroundState
     public override void Update()
     {
         base.Update();
+
+        if(stateMachine.MovementInput != Vector2.zero)
+        {
+            OnMove();
+            return;
+        }
     }
 }
