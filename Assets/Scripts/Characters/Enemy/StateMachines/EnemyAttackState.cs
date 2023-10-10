@@ -1,7 +1,9 @@
+
 public class EnemyAttackState : EnemyBaseState
 {
 
     private bool alreadyAppliedForce;
+    private bool alreadyAppliedDealing;
 
     public EnemyAttackState(EnemyStateMachine ememyStateMachine) : base(ememyStateMachine)
     {
@@ -9,6 +11,9 @@ public class EnemyAttackState : EnemyBaseState
 
     public override void Enter()
     {
+        alreadyAppliedForce = false;
+        alreadyAppliedDealing = false;
+
         stateMachine.MovementSpeedModifier = 0;
         base.Enter();
         StartAnimation(stateMachine.Enemy.AnimationData.AttackParameterHash);
@@ -34,6 +39,18 @@ public class EnemyAttackState : EnemyBaseState
         {
             if (normalizedTime >= stateMachine.Enemy.Data.ForceTransitionTime)
                 TryApplyForce();
+
+            if(!alreadyAppliedDealing && normalizedTime >= stateMachine.Enemy.Data.Dealing_Start_TransitionTime)
+            {
+                stateMachine.Enemy.Weapon.SetAttack(stateMachine.Enemy.Data.Damage, stateMachine.Enemy.Data.Force);
+                stateMachine.Enemy.Weapon.gameObject.SetActive(true);
+                alreadyAppliedDealing = true;
+            }
+            
+            if(alreadyAppliedDealing && normalizedTime >= stateMachine.Enemy.Data.Dealing_End_TransitionTime)
+            {
+                stateMachine.Enemy.Weapon.gameObject.SetActive(false);
+            }
 
         }
         else
